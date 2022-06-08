@@ -1,0 +1,49 @@
+clear
+close all
+clc 
+%对附录1中”进项“和”销项“发票信息进行处理
+data=xlsread('附件1：123家有信贷记录企业的相关数据.xlsx','进项发票信息');%读取数据
+[m,~]=find(data(:, 10) ==0); %找到发票状态为作废发票的记录
+data(m, :)=0;%作废发票记录置0
+result1=zeros(123,15);% 记录总值
+variancel=zeros(123,10);%记录方差
+for i=l:123
+    [m,~]=find(data(: ,l)==i);% 企业数据位置
+    re=data(m(l,l) :max(m),:);%同一公司数据
+    re=sortrows(re, [3,4]);%按照时间顺序排序
+    void=find(re(:, 1) ==0); %作废发票记录
+    void=size(void,l); %作废记录
+    valid=size(m,1)-void %有效记录
+    %求每个公司每个月的方差
+    date=re((void+l):size(re,l),:);
+    date((size(date,1)+1),4)=0;
+    k=1;
+    j=1;
+    mount=zeros(48,10);
+    month=date(k,4);
+    while (month~=0)
+        mount(j,:)=mount(j,:)+date(k,:);
+        k=k+1;
+        if month~=date(k,4)
+            j=j+l;
+        end
+            month=date(kj4);
+    end
+    vari=std(mount,1);
+    variancel(i,1)=i;
+    variancel(i, 2:10)=vari(2:10);%将值记录在 variance 中
+    smonth(1,:)=date(l,3:4);%发票起始月份
+    smonth(2,: )=date(size(date,1)-1,3:4);%发票终止月份
+    length=((smonth(2,1)-2017)*12+smonth(2,2))-((smonth(1,1)-2017)*12+smooth(1,2))+1;%计算运营时长
+    up=data(m(lj1):max(m),6);
+    up=numel (unique (up)) ;%求上游企业数量
+    result1(i,1)=i;% 企业代号
+    result1(i,11)=valid;% 有效发票总量
+    result1(i,12)=void;% 无效发票总量
+    result1(i,13)=valid/numel(m);%有效发票所占比例
+    result1(i,14)=up;%上游企业数量
+    result1(i,15)=length;% 经营时长
+    result1(i,2:10)= sum(re(:,2:10),1);
+end
+xlswrite('123 企业结果',result1,'进项结果','A2:0124');
+xlswrite('123 企业月方差',variance1,'进项结果','A2:J124');
