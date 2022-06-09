@@ -12,10 +12,10 @@ for i=l:123
     re=data(m(l,l) :max(m),:);%同一公司数据
     re=sortrows(re, [3,4]);%按照时间顺序排序
     void=find(re(:, 1) ==0); %作废发票记录
-    void=size(void,l); %作废记录
-    valid=size(m,1)-void %有效记录
+    void=size(void,1); %作废记录
+    valid=size(m,1)-void;%有效记录
     %求每个公司每个月的方差
-    date=re((void+l):size(re,l),:);
+    date=re((void+1):size(re,1),:);
     date((size(date,1)+1),4)=0;
     k=1;
     j=1;
@@ -25,18 +25,18 @@ for i=l:123
         mount(j,:)=mount(j,:)+date(k,:);
         k=k+1;
         if month~=date(k,4)
-            j=j+l;
+            j=j+1;
         end
-            month=date(kj4);
+            month=date(k,4);
     end
     vari=std(mount,1);
-    variancel(i,1)=i;
-    variancel(i, 2:10)=vari(2:10);%将值记录在 variance 中
-    smonth(1,:)=date(l,3:4);%发票起始月份
-    smonth(2,: )=date(size(date,1)-1,3:4);%发票终止月份
+    variance1(i,1)=i;
+    variance1(i,2:10)=vari(2:10);%将值记录在 variance 中
+    smonth(1,:)=date(1,3:4);%发票起始月份
+    smonth(2,:)=date(size(date,1)-1,3:4);%发票终止月份
     length=((smonth(2,1)-2017)*12+smonth(2,2))-((smonth(1,1)-2017)*12+smooth(1,2))+1;%计算运营时长
-    up=data(m(lj1):max(m),6);
-    up=numel (unique (up)) ;%求上游企业数量
+    up=data(m(1,1):max(m),6);
+    up=numel(unique(up));%求上游企业数量
     result1(i,1)=i;% 企业代号
     result1(i,11)=valid;% 有效发票总量
     result1(i,12)=void;% 无效发票总量

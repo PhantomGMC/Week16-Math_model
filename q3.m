@@ -10,8 +10,8 @@ k=1;
 j=1;
 for i=124:425
     if(orData(i-123,1)~=data(j,1))
-    del(k,1)=i-123;
-    k=k+1;
+        del(k,1)=i-123;
+        k=k+1;
     else
         if (j<=210)
             j=j+1;
@@ -29,5 +29,5 @@ for i=1:92
     point(del(i,1),:)=0;
 end
 xlswrite('第三题数据',orData,'A2:K303');
-xlswrite('第三题数据',point,'L2: L303');
+xlswrite('第三题数据',point,'L2:L303');
 del=del+123;
